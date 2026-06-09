@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NS Zone | Ultimate Pulsur NS 200 Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --primary: #ff0e1f; /* Raw Red */
+            --bg-dark: #0f0f12; /* Deep Charcoal */
+            --bg-card: #1a1a22; /* Card Background */
+            --text-light: #ffffff;
+            --text-gray: #a0a0aa;
+            --font-display: 'Orbitron', sans-serif;
+            --font-body: 'Poppins', sans-serif;
+            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        /* --- UTILITIES --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section {
+            padding: 100px 0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            font-family: var(--font-display);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 4px;
+            transition: var(--transition);
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--text-light);
+            box-shadow: 0 4px 15px rgba(255, 14, 31, 0.4);
+        }
+
+        .btn-primary:hover {
+            background-color: transparent;
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 14, 31, 0.6);
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title ::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--primary);
+            margin: 10px auto 0 auto;
+        }
+
+        /* --- HEADER & NAV --- */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(15, 15, 18, 0.85);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            transition: var(--transition);
+        }
+
+        header.scrolled {
+            padding: 0.5rem 0;
+            background: rgba(15, 15, 18, 0.98);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        .nav-link {
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        /* --- HERO SECTION --- */
+        #home {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* Video Background styling (uses fallback backdrop gradient if video fails) */
+        .video-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            filter: brightness(0.4) contrast(1.1);
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(15,15,18,0.9) 0%, rgba(15,15,18,0.4) 100%);
+            z-index: -1;
+        }
+
+        .hero-content {
+            max-width: 700px;
+            transform: translateY(30px);
+            opacity: 0;
+            animation: fadeInUp 1s forwards cubic-bezier(0.165, 0.84, 0.44, 1) 0.2s;
+        }
+
+        .hero-content h1 {
+            font-family: var(--font-display);
+            font-size: 4rem;
+            line-height: 1.1;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-content h1 span {
+            color: var(--primary);
+            display: block;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: var(--text-gray);
+            margin-bottom: 2.5rem;
+        }
+
+        /* --- ABOUT SECTION --- */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text h3 {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .about-text p {
+            color: var(--text-gray);
+            margin-bottom: 1.5rem;
+        }
+
+        .mission-box {
+            background: linear-gradient(90deg, rgba(255,14,31,0.1) 0%, rgba(0,0,0,0) 100%);
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .mission-box h4 {
+            font-family: var(--font-display);
+            margin-bottom: 0.5rem;
+        }
+
+        .projects-list {
+            margin-top: 2rem;
+        }
+
+        .project-item {
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .project-item h5 {
+            font-size: 1.1rem;
+            color: var(--text-light);
+        }
+
+        .project-item p {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            margin: 0;
+        }
+
+        /* --- SERVICES SECTION --- */
+        .services-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+        }
+
+        .service-card {
+            background-color: var(--bg-card);
+            padding: 3.5rem 2.5rem;
+            border-radius: 8px;
+            transition: var(--transition);
+            border: 1px solid rgba(255,255,255,0.02);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--primary);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: var(--transition);
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+            border-color: rgba(255, 14, 31, 0.2);
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .service-card h3 {
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+        }
+
+        .service-card p {
+            color: var(--text-gray);
+        }
+
+        /* --- PORTFOLIO / GALLERY SECTION --- */
+        .gallery-filters {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .filter-btn {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.2);
+            color: var(--text-light);
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 6px;
+            overflow: hidden;
+            aspect-ratio: 4/3;
+            background: #222;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 15, 18, 0.85);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: var(--transition);
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .gallery-overlay h4 {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        /* --- TESTIMONIALS SECTION --- */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .testimonial-card {
+            background-color: var(--bg-card);
+            padding: 2.5rem;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .testimonial-card .quote-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2rem;
+            color: rgba(255,255,255,0.05);
+        }
+
+        .testimonial-text {
+            color: var(--text-gray);
+            font-style: italic;
+            margin-bottom: 1.5rem;
+        }
+
+        .worker-profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .worker-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary);
+            background: #444;
+        }
+
+        .worker-info h4 {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .worker-info span {
+            font-size: 0.85rem;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* --- CONTACT SECTION --- */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 4rem;
+        }
+
+        .contact-info h3 {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-methods {
+            margin-top: 2rem;
+        }
+
+        .contact-method {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-method i {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-top: 0.25rem;
+        }
+
+        .contact-method h5 {
+            font-size: 1.1rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .contact-method p {
+            color: var(--text-gray);
+        }
+
+        .contact-form {
+            background-color: var(--bg-card);
+            padding: 2.5rem;
+            border-radius: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-control {
+            width: 100%;
+            background-color: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 1rem;
+            color: var(--text-light);
+            border-radius: 4px;
+            font-family: var(--font-body);
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            background-color: rgba(255,255,255,0.08);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background-color: #08080a;
+            padding: 3rem 0;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            font-size: 0.9rem;
+            color: var(--text-gray);
+        }
+
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Scroll Animation Utilities */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- RESPONSIVE BREAKPOINTS --- */
+        @media (max-width: 992px) {
+            .about-grid, .services-grid, .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            .hero-content h1 {
+                font-size: 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background-color: var(--bg-dark);
+                flex-direction: column;
+                align-items: center;
+                padding-top: 3rem;
+                transition: var(--transition);
+                z-index: 999;
+            }
+
+            .nav-menu.open {
+                left: 0;
+            }
+
+            .footer-container {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header id="header">
+        <div class="container nav-container">
+            <a href="#home" class="logo">NS<span>ZONE</span></a>
+            <button class="hamburger" id="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#services" class="nav-link">Services</a></li>
+                <li><a href="#portfolio" class="nav-link">Portfolio</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <section id="home">
+        <video class="video-bg" autoplay muted loop playsinline poster="video-poster.jpg">
+            <source src="video.mp4" type="video/mp4">
+            Your browser does not support HTML5 video.
+        </video>
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="hero-content">
+                <h1>Pulsur NS 200 <span>The Naked Wolf</span></h1>
+                <p>Experience unmatched raw power, aggressive styling, and precision handling. Unleash your thrill with the definitive street fighter tailored to perfection.</p>
+                <a href="#contact" class="btn btn-primary">Book a Test Ride</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="section container reveal">
+        <h2 class="section-title">About Us</h2>
+        <div class="about-grid">
+            <div class="about-text">
+                <h3>Built For True Riders</h3>
+                <p>At NS Zone, we are more than just a showroom. We are a collective of engineering geeks and adrenaline junkies dedicated entirely to the legacy of the Pulsar NS 200.</p>
+                <p>For over a decade, we have specialized in customizing, maintaining, and sourcing performance units for the absolute benchmark of naked street bikes.</p>
+                <div class="mission-box">
+                    <h4>Our Future Mission</h4>
+                    <p>To redefine the community riding culture by setting up premium ecosystem hubs offering zero-compromise track tuning and next-gen electric conversions for street fighters.</p>
+                </div>
+            </div>
+            <div>
+                <h3>Key Operations & Milestones</h3>
+                <div class="projects-list">
+                    <div class="project-item">
+                        <h5>Project Alpha Wolf (2024)</h5>
+                        <p>Fully re-engineered track-ready NS 200 with bespoke aerodynamic styling and an upgraded exhaust kit.</p>
+                    </div>
+                    <div class="project-item">
+                        <h5>Hyper-Street Build (2025)</h5>
+                        <p>Custom ECU mapping and premium liquid cooling optimization for extreme cross-country endurance.</p>
+                    </div>
+                    <div class="project-item">
+                        <h5>Community Garage Network</h5>
+                        <p>Established 5 localized high-tech support modules for rapid diagnostics and performance tuning.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="section style-bg" style="background-color: #121216;">
+        <div class="container reveal">
+            <h2 class="section-title">Premium Services</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <i class="fas fa-shield-alt service-icon"></i>
+                    <h3>Aggressive Insurance</h3>
+                    <p>Protect your beast without the premium headache. Our tailored bike insurance packages feature instant claim processing, bumper-to-bumper protection, and comprehensive coverage specifically structured for performance street motorcycles.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-tools service-icon"></i>
+                    <h3>Elite Maintenance</h3>
+                    <p>Your NS 200 deserves more than standard mechanics. Our master technicians provide rigorous multi-point liquid-cooling health assessments, fuel injection calibrations, custom suspension setups, and genuine parts replacements.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="portfolio" class="section container reveal">
+        <h2 class="section-title">Our Portfolio</h2>
+        <div class="gallery-filters">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="custom">Custom Builds</button>
+            <button class="filter-btn" data-filter="service">Restorations</button>
+        </div>
+        <div class="gallery-grid">
+            <div class="gallery-item" data-category="custom">
+                <img src="https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&q=80&w=600" alt="Pulsar Custom Layout">
+                <div class="gallery-overlay">
+                    <h4>Dark Stealth Custom</h4>
+                    <p>Matte black body wrap & upgraded exhaust</p>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="service">
+                <img src="https://images.unsplash.com/photo-1609630875171-b1321377ee65?auto=format&fit=crop&q=80&w=600" alt="Engine work">
+                <div class="gallery-overlay">
+                    <h4>Engine Blueprinting</h4>
+                    <p>Full mechanical restoration & cleanup</p>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="custom">
+                <img src="https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&q=80&w=600" alt="Red Naked Bike">
+                <div class="gallery-overlay">
+                    <h4>Crimson Streak</h4>
+                    <p>Custom decals and carbon fiber panels</p>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="service">
+                <img src="https://images.unsplash.com/photo-1485965120184-e220f721d03e?auto=format&fit=crop&q=80&w=600" alt="Bike Chain Close Up">
+                <div class="gallery-overlay">
+                    <h4>Pro Tuning</h4>
+                    <p>Sprocket kit upgrades and chain alignment</p>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="custom">
+                <img src="https://images.unsplash.com/photo-1615172282427-9a57ef2d142e?auto=format&fit=crop&q=80&w=600" alt="Neon Street Look">
+                <div class="gallery-overlay">
+                    <h4>Neon Rogue</h4>
+                    <p>Integrated underglow & custom console styling</p>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="service">
+                <img src="https://images.unsplash.com/photo-1599819811279-d5ad9cccf838?auto=format&fit=crop&q=80&w=600" alt="Brake System">
+                <div class="gallery-overlay">
+                    <h4>Bremo Brake Kit</h4>
+                    <p>Performance ABS calibration</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="testimonials" class="section style-bg" style="background-color: #121216;">
+        <div class="container reveal">
+            <h2 class="section-title">Expert Opinions</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <i class="fas fa-quote-right quote-icon"></i>
+                    <p class="testimonial-text">"Tuning the perimeter frame of the NS 200 requires absolute precision. We treat every client's bike like a racing prototype."</p>
+                    <div class="worker-profile">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150" alt="Sarah Jenkins" class="worker-img">
+                        <div class="worker-info">
+                            <h4>Sarah Jenkins</h4>
+                            <span>Chief Performance Engineer</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <i class="fas fa-quote-right quote-icon"></i>
+                    <p class="testimonial-text">"Our insurance protection strategies ensure that if you push the edge on the tarmac, your wallet never bears the impact."</p>
+                    <div class="worker-profile">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150" alt="Marcus Vance" class="worker-img">
+                        <div class="worker-info">
+                            <h4>Marcus Vance</h4>
+                            <span>Risk &amp; Claims Consultant</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section container reveal">
+        <h2 class="section-title">Connect With Us</h2>
+        <div class="contact-grid">
+            <div class="contact-info">
+                <h3>Drop By The Garage</h3>
+                <p>Have questions about your NS 200 configuration, parts inventory, or want to schedule an extensive overhaul? Hit us up or visit our floor directly.</p>
+                <div class="contact-methods">
+                    <div class="contact-method">
+                        <i class="fas fa-phone-alt"></i>
+                        <div>
+                            <h5>Hotline</h5>
+                            <p>+918610179061</p>
+                        </div>
+                    </div>
+                    <div class="contact-method">                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h5>Email</h5>
+                            <p>karthikeyan14853@gmail.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-method">                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h5>HQ Location</h5>
+                            <p>1/97,thoppu street,sithamalli,mayiladuthurai District, CA</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <form class="contact-form" onsubmit="event.preventDefault(); alert('Message dispatched safely to the pit crew!');">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Your Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" class="form-control" placeholder="Your Email Address" required>
+                </div>
+                <div class="form-group">
+                    <textarea class="form-control" placeholder="Describe your bike issue or custom request..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container footer-container">
+            <p>&copy; 2026 NS ZONE. All Rights Respected.</p>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms &amp; Conditions</a>
+                <a href="#">Safety Guidelines</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- MOBILE NAV MENU TOGGLE ---
+        const menuToggle = document.getElementById('menu-toggle');
+        const navMenu = document.getElementById('nav-menu');
+
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('open');
+            const icon = menuToggle.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+
+        // Close menu when clicking a link
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('open');
+                const icon = menuToggle.querySelector('i');
+                icon.classList.add('fa-bars');
+                icon.classList.remove('fa-times');
+            });
+        });
+
+        // --- HEADER CHANGE BACKGROUND ON SCROLL ---
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // --- SCROLL REVEAL ANIMATION ---
+        const revealElements = document.querySelectorAll('.reveal');
+        
+        const revealOnScroll = () => {
+            for (let i = 0; i < revealElements.length; i++) {
+                let windowHeight = window.innerHeight;
+                let elementTop = revealElements[i].getBoundingClientRect().top;
+                let elementVisible = 150;
+
+                if (elementTop < windowHeight - elementVisible) {
+                    revealElements[i].classList.add('active');
+                }
+            }
+        };
+
+        window.addEventListener('scroll', revealOnScroll);
+        // Run once on load to show elements already in view
+        revealOnScroll();
+
+        // --- PORTFOLIO ISOTOPE/FILTER FUNCTIONALITY ---
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Change active button style
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+
+                const filterValue = button.getAttribute('data-filter');
+
+                galleryItems.forEach(item => {
+                    if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+                        item.style.display = 'block';
+                        setTimeout(() => item.style.opacity = '1', 50);
+                    } else {
+                        item.style.opacity = '0';
+                        setTimeout(() => item.style.display = 'none', 300);
+                    }
+                });
+            });
+        });
+
+        // --- ACTIVE LINK SPY ON SCROLL ---
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
